@@ -131,6 +131,13 @@
             padding: 1rem 0;
         }
 
+        .nav-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
         .brand {
             display: inline-flex;
             align-items: center;
@@ -185,6 +192,53 @@
         .nav-links a:focus-visible {
             color: var(--text);
             transform: translateY(-2px);
+        }
+
+        .nav-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            cursor: pointer;
+            transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .nav-toggle:hover,
+        .nav-toggle:focus-visible {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 179, 71, 0.34);
+            transform: translateY(-1px);
+        }
+
+        .nav-toggle-box {
+            display: grid;
+            gap: 0.28rem;
+        }
+
+        .nav-toggle-line {
+            width: 1.2rem;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+
+        .nav-toggle[aria-expanded="true"] .nav-toggle-line:nth-child(1) {
+            transform: translateY(0.4rem) rotate(45deg);
+        }
+
+        .nav-toggle[aria-expanded="true"] .nav-toggle-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle[aria-expanded="true"] .nav-toggle-line:nth-child(3) {
+            transform: translateY(-0.4rem) rotate(-45deg);
         }
 
         .hero {
@@ -838,20 +892,46 @@
             }
 
             .nav {
-                align-items: start;
+                align-items: stretch;
                 flex-direction: column;
                 padding: 0.9rem 0 1rem;
             }
 
+            .nav-top {
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .nav-toggle {
+                display: inline-flex;
+                flex-shrink: 0;
+            }
+
             .nav-links {
                 width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 0.75rem;
                 justify-content: start;
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                pointer-events: none;
+                padding-top: 0;
+                transition: max-height 0.3s ease, opacity 0.25s ease, padding-top 0.25s ease;
+            }
+
+            .nav-links.is-open {
+                max-height: 20rem;
+                opacity: 1;
+                pointer-events: auto;
+                padding-top: 0.35rem;
             }
 
             .nav-links a {
                 display: inline-flex;
                 align-items: center;
+                justify-content: center;
                 min-height: 2.5rem;
                 padding: 0.45rem 0.85rem;
                 border-radius: 999px;
@@ -962,15 +1042,6 @@
                 letter-spacing: 0.12em;
             }
 
-            .nav-links {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .nav-links a {
-                justify-content: center;
-            }
-
             .eyebrow {
                 font-size: 0.74rem;
                 padding: 0.5rem 0.8rem;
@@ -1037,8 +1108,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .button,
-            .nav-links a {
+            .button {
                 width: 100%;
             }
 
@@ -1064,15 +1134,26 @@
 
         <header class="site-header">
             <div class="container nav">
-                <a class="brand" href="#home">
-                    <span class="brand-badge">SS</span>
-                    <span class="brand-copy">
-                        <span>Sahil Suthar</span>
-                        <span>PHP Laravel Developer</span>
-                    </span>
-                </a>
+                <div class="nav-top">
+                    <a class="brand" href="#home">
+                        <span class="brand-badge">SS</span>
+                        <span class="brand-copy">
+                            <span>Sahil Suthar</span>
+                            <span>PHP Laravel Developer</span>
+                        </span>
+                    </a>
 
-                <nav class="nav-links" aria-label="Primary">
+                    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu"
+                        aria-label="Toggle navigation">
+                        <span class="nav-toggle-box" aria-hidden="true">
+                            <span class="nav-toggle-line"></span>
+                            <span class="nav-toggle-line"></span>
+                            <span class="nav-toggle-line"></span>
+                        </span>
+                    </button>
+                </div>
+
+                <nav class="nav-links" id="primary-menu" aria-label="Primary">
                     <a href="#about">About</a>
                     <a href="#experience">Experience</a>
                     <a href="#skills">Skills</a>
@@ -1535,7 +1616,38 @@
     </div>
 
     <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
         const revealElements = document.querySelectorAll('.reveal');
+
+        const syncMobileNav = () => {
+            if (!navToggle || !navLinks) {
+                return;
+            }
+
+            if (window.innerWidth > 760) {
+                navToggle.setAttribute('aria-expanded', 'false');
+                navLinks.classList.remove('is-open');
+            }
+        };
+
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => {
+                const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', String(!isOpen));
+                navLinks.classList.toggle('is-open', !isOpen);
+            });
+
+            navLinks.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => {
+                    navToggle.setAttribute('aria-expanded', 'false');
+                    navLinks.classList.remove('is-open');
+                });
+            });
+
+            window.addEventListener('resize', syncMobileNav);
+            syncMobileNav();
+        }
 
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
