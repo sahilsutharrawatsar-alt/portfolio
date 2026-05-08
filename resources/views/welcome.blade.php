@@ -588,6 +588,7 @@
 
         .about-grid,
         .skills-grid,
+        .ai-grid,
         .projects-grid,
         .contact-grid {
             display: grid;
@@ -665,7 +666,101 @@
         }
 
         .skills-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .ai-grid {
+            grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        }
+
+        .section-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.9rem;
+            color: var(--accent-soft);
+            font-size: 0.82rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .section-note::before {
+            content: "";
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 0 0 0.3rem rgba(84, 211, 194, 0.12);
+        }
+
+        .skill-note {
+            margin-top: 1rem;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .ai-feature,
+        .ai-side-panel {
+            padding: 1.6rem;
+        }
+
+        .ai-feature {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)),
+                radial-gradient(circle at top right, rgba(255, 179, 71, 0.16), transparent 32%);
+        }
+
+        .ai-side-panel {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)),
+                radial-gradient(circle at top left, rgba(84, 211, 194, 0.14), transparent 36%);
+        }
+
+        .ai-feature p,
+        .ai-side-panel p {
+            color: var(--muted);
+        }
+
+        .ai-pillars {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.35rem;
+        }
+
+        .ai-pillar {
+            padding: 1.15rem;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ai-pillar strong,
+        .ai-tool-item strong {
+            display: block;
+            color: #fff2dc;
+            margin-bottom: 0.35rem;
+            font-size: 1rem;
+        }
+
+        .ai-pillar span,
+        .ai-tool-item span {
+            color: var(--muted);
+            font-size: 0.94rem;
+            line-height: 1.7;
+        }
+
+        .ai-tool-list {
+            display: grid;
+            gap: 0.9rem;
+            margin-top: 1.15rem;
+        }
+
+        .ai-tool-item {
+            padding: 1rem 1.05rem;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .projects-grid {
@@ -866,6 +961,7 @@
             .about-grid,
             .contact-grid,
             .skills-grid,
+            .ai-grid,
             .projects-grid,
             .highlight-band {
                 grid-template-columns: 1fr;
@@ -1012,6 +1108,10 @@
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
+            .ai-pillars {
+                grid-template-columns: 1fr;
+            }
+
             .footer {
                 padding-bottom: 2rem;
             }
@@ -1090,6 +1190,11 @@
                 grid-template-columns: 1fr;
             }
 
+            .ai-feature,
+            .ai-side-panel {
+                padding: 1.25rem;
+            }
+
             .contact-list {
                 gap: 0.8rem;
             }
@@ -1157,6 +1262,7 @@
                     <a href="#about">About</a>
                     <a href="#experience">Experience</a>
                     <a href="#skills">Skills</a>
+                    <a href="#ai-tools">AI Tools</a>
                     <a href="#projects">Projects</a>
                     <a href="#contact">Contact</a>
                 </nav>
@@ -1379,8 +1485,8 @@
                             <h2>Tools and capabilities I use to ship solid web apps.</h2>
                         </div>
                         <p>
-                            The resume highlights a stack built around PHP frameworks, SQL-backed development, and
-                            interactive frontend work for modern web applications.
+                            The resume highlights a stack built around PHP frameworks, SQL-backed development,
+                            interactive frontend work, and modern AI-assisted productivity for web applications.
                         </p>
                     </div>
 
@@ -1454,6 +1560,103 @@
                                 </div>
                             </div>
                         </article>
+
+                        <article class="card reveal">
+                            <h3>AI-Assisted Workflow</h3>
+                            <div class="skill-list">
+                                <div class="skill-row">
+                                    <span>Prompt-Based Research</span>
+                                    <span>Practical</span>
+                                </div>
+                                <div class="skill-row">
+                                    <span>AI Debugging Support</span>
+                                    <span>Practical</span>
+                                </div>
+                                <div class="skill-row">
+                                    <span>Content & Copy Drafting</span>
+                                    <span>Working</span>
+                                </div>
+                                <div class="skill-row">
+                                    <span>Faster Idea Validation</span>
+                                    <span>Working</span>
+                                </div>
+                            </div>
+                            <p class="skill-note">
+                                I use AI tools to speed up research, refine interface copy, and unblock development
+                                tasks while keeping implementation quality and final review in my own hands.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ai-tools">
+                <div class="container">
+                    <div class="section-head reveal">
+                        <div>
+                            <span class="eyebrow">AI Tools</span>
+                            <h2>AI-assisted workflows that help me build faster and present work better.</h2>
+                        </div>
+                        <p>
+                            Alongside Laravel development, I use modern AI support for code exploration, debugging,
+                            content drafting, and feature planning so I can move faster while keeping delivery clear
+                            and practical.
+                        </p>
+                    </div>
+
+                    <div class="ai-grid">
+                        <article class="card ai-feature reveal">
+                            <span class="section-note">How I use AI</span>
+                            <h3>Practical AI support inside a real development workflow.</h3>
+                            <p>
+                                AI is most useful to me when it accelerates thinking, not when it replaces judgment.
+                                I use it to explore approaches, improve wording, speed up repetitive tasks, and get
+                                quicker momentum during planning or debugging before I validate the final result in
+                                code.
+                            </p>
+
+                            <div class="ai-pillars">
+                                <div class="ai-pillar">
+                                    <strong>Code Assistance</strong>
+                                    <span>Reviewing logic ideas, exploring implementation paths, and reducing trial time.</span>
+                                </div>
+                                <div class="ai-pillar">
+                                    <strong>Debug Support</strong>
+                                    <span>Breaking down errors faster and checking alternative fixes during development.</span>
+                                </div>
+                                <div class="ai-pillar">
+                                    <strong>Content Polish</strong>
+                                    <span>Improving website copy, project descriptions, and call-to-action clarity.</span>
+                                </div>
+                                <div class="ai-pillar">
+                                    <strong>Planning Speed</strong>
+                                    <span>Turning rough ideas into structured tasks, feature notes, and next steps.</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <aside class="card ai-side-panel reveal">
+                            <span class="section-note">Toolset</span>
+                            <h3>AI tools and use cases I can bring into projects.</h3>
+                            <div class="ai-tool-list">
+                                <div class="ai-tool-item">
+                                    <strong>ChatGPT</strong>
+                                    <span>Useful for brainstorming, feature planning, debugging discussion, and content drafting.</span>
+                                </div>
+                                <div class="ai-tool-item">
+                                    <strong>AI Coding Assistants</strong>
+                                    <span>Helpful for speeding up repetitive coding work, code suggestions, and quick exploration.</span>
+                                </div>
+                                <div class="ai-tool-item">
+                                    <strong>Prompt-Driven Research</strong>
+                                    <span>Summarizing options, comparing approaches, and getting faster initial direction.</span>
+                                </div>
+                                <div class="ai-tool-item">
+                                    <strong>AI Content Support</strong>
+                                    <span>Refining portfolio copy, service messaging, and user-facing text for stronger presentation.</span>
+                                </div>
+                            </div>
+                        </aside>
                     </div>
                 </div>
             </section>
